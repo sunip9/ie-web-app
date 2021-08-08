@@ -1,0 +1,19 @@
+.navbar-bar {
+  background-color: #24292e;
+  height: 7.5vh !important;
+  padding: 0 5% 0 0;
+}
+.navbar-brand {
+  color: white;
+  margin: 0 10%;
+}
+.nav-item {
+  color: white !important;
+  font-size: 18px;
+}
+.nav-item:hover {
+  color: gray !important;
+}
+.btn-login {
+  margin: 0 10%;
+}
