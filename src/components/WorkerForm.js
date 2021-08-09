@@ -1,12 +1,16 @@
-import { Grid, Checkbox} from '@material-ui/core'
+import { Grid, Checkbox, FormLabel, Typography} from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { useForm, Form  } from './useForm'
 import { Controls }  from './controls/Controls'
 import MuiPaper from './usePaper';
+import { FormControl,FormGroup, FormControlLabel, Checkbox as MuiCheckbox } from '@material-ui/core';
+import './style.css';
+import CloseIcon from '@material-ui/icons/Close';
 
 const initialValues = {
-    empId: '', name:'', designation: '', salary: '', section: '', address:'', 
+    empId: '', name:'', designation: '', salary: '', section: '', address:'', stitching: false, swing: false,
     skill: [], exp: 0, shift: '',age: '', floor: '', marital: '', status: '', joining: new Date() 
+    
 }
 
 const statusItem = [
@@ -21,9 +25,19 @@ const shiftTime = [
 ]
 
 export default function WorkerForm(props) {
+    const addTags = event => {
+		if (event.target.value !== "") {
+			// setTags([...tags, event.target.value]);
+            setValues({...values, skill: [...values.skill,event.target.value]})
+			event.target.value = "";
+		}
+	};
 
+    const removeTags = indexToRemove => {
+		// setTags([...tags.filter((_, index) => index !== indexToRemove)]);
+        setValues({...values, skill:[...values.skill.filter((_, index) => index !== indexToRemove)]})
+	};
     const { addOrEdit, recordForEdit } = props
-    const [getSkill, setGetSkill] = useState([])
 
     const validate =(fieldValues = values) => {
         let temp={...errors}
@@ -41,29 +55,26 @@ export default function WorkerForm(props) {
         if(fieldValues == values)
         return Object.values(temp).every(x => x== "")
     }
-const {values, setValues,errors, setErrors,handleChange, resetForm} = useForm(initialValues, true, validate)
+    const {values, setValues,errors, setErrors,handleChange, resetForm} = useForm(initialValues, true, validate)
 
     const handleSubmit = e =>{
         e.preventDefault()
         if(validate())
         addOrEdit(values, resetForm)      
     }
-    const getSkill2 = (e) =>{
-        let data = getSkill;
-        data.push(e.target.value)
-        setGetSkill(data)
-    }
+
     useEffect(()=>{
         if (recordForEdit != null)
             setValues({
                 ...recordForEdit
             })
     }, [recordForEdit])
+    console.log(values.skill,'from')
     return (
         <>
         <MuiPaper>
         <Form onSubmit={handleSubmit} >
-            <Grid container>
+            <Grid container >
             <Grid item xs={6}>
                 <Controls.Input 
                     name='name'
@@ -101,6 +112,8 @@ const {values, setValues,errors, setErrors,handleChange, resetForm} = useForm(in
                     onChange={handleChange}
                     error={errors.salary}
                 />
+                <Grid container spacing={0}>
+                <Grid xs={4}>
                   <Controls.Input 
                     name='age'
                     label="Age"
@@ -108,6 +121,8 @@ const {values, setValues,errors, setErrors,handleChange, resetForm} = useForm(in
                     value={values.age}
                     onChange={handleChange}
                 />
+                </Grid>
+                <Grid xs={6.5}>
                  <Controls.Input 
                     name='section'
                     label="Section"
@@ -116,6 +131,8 @@ const {values, setValues,errors, setErrors,handleChange, resetForm} = useForm(in
                     onChange={handleChange}
                     // error={errors.salary}
                 />
+                </Grid>
+                </Grid>
                  <Controls.Input 
                     name='address'
                     label="Address"
@@ -165,14 +182,30 @@ const {values, setValues,errors, setErrors,handleChange, resetForm} = useForm(in
                     onChange={handleChange}
                     items={maritalItem}
                 />
-               
-               <Controls.Checkbox
-                    // name="stitching"
-                    label="Stitching"
-                    // value="stitching"
-                    // onChange={(e) =>getSkill2(e)}
+               <Typography variant="h6" gutterBottom>
+                    Skill
+                </Typography>
+             <div className="tags-input">
+                <ul id="tags">
+                    {values.skill ? values.skill.map((tag, index) => (
+                        <li key={index} className="tag">
+                            <span className='tag-title'>{tag}</span>
+                            <span className='tag-close-icon'
+                                onClick={() => removeTags(index)}
+                            >
+                                <CloseIcon fontSize="small" />
+                            </span>
+                        </li>
+                    )): ''}
+                </ul>
+                <input
+                    type="text"
+                    autoComplete="on"
+                    // onKeyUp={event => event.key === "Enter" ? addTags(event) : null}
+                    onClick ={event => addTags(event)}
+                    placeholder="Add Worker skills"
                 />
-               
+		    </div>
                 
             </Grid>
             </Grid>

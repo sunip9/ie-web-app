@@ -3,7 +3,7 @@ import { FormControl, FormControlLabel, Checkbox as MuiCheckbox } from '@materia
 
 export default function Checkbox(props) {
 
-    const { name, label, value, onChange } = props;
+    const { name, label, value, onChange, ...other } = props;
 
 
     const convertToDefEventPara = (name, value) => ({
@@ -19,6 +19,7 @@ export default function Checkbox(props) {
                     name={name}
                     color="primary"
                     checked={value}
+                    {...other}
                     onChange={e => onChange(convertToDefEventPara(name, e.target.checked))}
                 />}
                 label={label}

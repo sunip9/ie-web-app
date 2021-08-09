@@ -56,13 +56,10 @@ export default function ProductForm(props) {
 
     const addProcess = () =>{
         const oneProcess = {type:values.type, smv: parseFloat(smv), target}  
-        // processes ?      
-        // setProcess([...processes, oneProcess]) :
-        // setProcess([oneProcess])
+
         values.pro ? setValues({...values, pro:[...values.pro,oneProcess]}) : setValues({...values})
         setSmv('')
         setTarget('')        
-        // setValues({...values, process:[processes] , type: 'none'})              
     }
     const addValues = () =>{
         setValues({...values, pro:[processes]})
@@ -133,14 +130,6 @@ export default function ProductForm(props) {
                     />
             </Grid>
             <Grid item xs={6}>
-                {/* <Controls.RadioGroup 
-                    name='status'
-                    label= 'Status'
-                    variant='outlined'
-                    value={values.status}
-                    onChange={handleChange}
-                    items={statusItem}
-                /> */}
                 <Controls.Select
                     name='type'
                     label="Type"

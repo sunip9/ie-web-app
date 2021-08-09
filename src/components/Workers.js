@@ -48,7 +48,7 @@ export default function Workers() {
         })
       }    
  
-    console.log(workers)
+    // console.log(workers)
        
     const handleSearch = e => {
         let target = e.target;
@@ -123,7 +123,7 @@ export default function Workers() {
                         variant="outlined"
                         startIcon={<AddIcon />}
                         className={classes.newButton}
-                        onClick={() => { setOpenPopup(true) }}
+                        onClick={() => { setOpenPopup(true); setRecordForEdit(null) }}
                     />
             </Toolbar>            
             <TblContainer>
