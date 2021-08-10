@@ -8,7 +8,7 @@ import './style.css';
 import CloseIcon from '@material-ui/icons/Close';
 
 const initialValues = {
-    empId: '', name:'', designation: '', salary: '', section: '', address:'', stitching: false, swing: false,
+    empId: '', name:'', designation: '', salary: '', section: '', address:'', gender: '',
     skill: [], exp: 0, shift: '',age: '', floor: '', marital: '', status: '', joining: new Date() 
     
 }
@@ -22,6 +22,9 @@ const maritalItem = [
 
 const shiftTime = [
     { id: 'a', title: 'A'}, { id: 'b', title: 'B'}, { id: 'c', title: 'C'}
+]
+const genderSelect = [
+    { id: 'male', title: 'Male'}, { id: 'female', title: 'Female'}
 ]
 
 export default function WorkerForm(props) {
@@ -112,18 +115,16 @@ export default function WorkerForm(props) {
                     onChange={handleChange}
                     error={errors.salary}
                 />
-                <Grid container spacing={0}>
-                <Grid xs={4}>
+                
                   <Controls.Input 
                     name='age'
                     label="Age"
                     variant="outlined"
                     value={values.age}
                     onChange={handleChange}
-                />
-                </Grid>
-                <Grid xs={6.5}>
-                 <Controls.Input 
+                />               
+               
+                <Controls.Input 
                     name='section'
                     label="Section"
                     variant="outlined"
@@ -131,8 +132,7 @@ export default function WorkerForm(props) {
                     onChange={handleChange}
                     // error={errors.salary}
                 />
-                </Grid>
-                </Grid>
+             
                  <Controls.Input 
                     name='address'
                     label="Address"
@@ -165,15 +165,18 @@ export default function WorkerForm(props) {
                     options={shiftTime}
                     error={errors.shift}
                 />
- 
-                <Controls.RadioGroup 
-                    name='status'
-                    label= 'Status'
-                    variant='outlined'
-                    value={values.status}
-                    onChange={handleChange}
-                    items={statusItem}
-                />
+            <Grid container spacing={0}>
+                <Grid xs={6}>
+                    <Controls.RadioGroup 
+                        name='status'
+                        label= 'Status'
+                        variant='outlined'
+                        value={values.status}
+                        onChange={handleChange}
+                        items={statusItem}
+                    />
+                </Grid>
+                <Grid xs={6}>
                 <Controls.RadioGroup 
                     name='marital'
                     label= 'Marital Status'
@@ -182,7 +185,18 @@ export default function WorkerForm(props) {
                     onChange={handleChange}
                     items={maritalItem}
                 />
-               <Typography variant="h6" gutterBottom>
+               </Grid>
+               </Grid>
+               <Controls.Select
+                    name='gender'
+                    label="Gender"
+                    variant='outlined'
+                    value={values.gender}
+                    onChange={handleChange}
+                    options={genderSelect}
+                    // error={errors.shift}
+                />
+               <Typography variant="h6" gutterBottom style={{marginLeft:'0.4rem'}}>
                     Skill
                 </Typography>
              <div className="tags-input">

@@ -13,6 +13,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import PageHeader from './Header/PageHeader'
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import SaveIcon from '@material-ui/icons/Save';
+import { AirlineSeatLegroomReducedSharp } from '@material-ui/icons';
 
 const initialValues = {
     worker: '', product:'', floor: '', line: '', time: 0, 
@@ -24,6 +25,9 @@ const line = [
 ]
 const floor = [
     { id: 1, title: 1}, { id: 2, title: 2}, { id: 3, title: 3},{ id: 4, title: 4},{ id: 5, title: 5}
+]
+const groupValue = [
+    { id: 'a', title: 'A'}, { id: 'b', title: 'B'}, { id: 'c', title: 'C'},{ id: 'd', title: 'D'},{ id: 'e', title: 'E'}
 ]
 export default function TaskForm(props) {
     const [openPopup, setOpenPopup] = useState(false)
@@ -39,6 +43,7 @@ export default function TaskForm(props) {
     const [efficiency, setEfficiency] = useState()
     const [target, setTarget]=useState()
     const [time, setTime]=useState()
+    const [group, setGroup]=useState()
     const [achieve, setAchieve]=useState()
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
     
@@ -80,12 +85,9 @@ export default function TaskForm(props) {
         setProductId(e.target.value) 
     } 
 
-    // console.log(productId,'productId')
-    // console.log(product,"product")
-
     const addTasks = () =>{ 
         let x = ((achieve*(60/target))/(60*time))
-        let oneTask = { size: product.size, achieve, time, target:target*time, efficiency: x}
+        let oneTask = { size: product.size, achieve, time, target:target*time, efficiency: x , overTime: (time-8 > 0 ? time-8 : 0), group}
         console.log(oneTask)
         let effTask = { product: productId, efficiency: x }
         task2 ? 
@@ -103,17 +105,17 @@ export default function TaskForm(props) {
       console.log(values, 'values')
       console.log(task,"task")
     const fullTask = () =>{
-        const gg = task2.map(x => x.efficiency).reduce((prev,next) => prev + next)
-        let avg = gg/task2.length
+        // const gg = task2.map(x => x.efficiency).reduce((prev,next) => prev + next)
+        let avgEff = ((task.map(m =>
+            m.efficiency).reduce((prev,next) => prev+next)/task.length)*100).toFixed(2)
+        console.log(avgEff,'avgEff')
+        let totalTime = task.reduce((acc,cur) => acc + cur.time, 0)
+        console.log(totalTime,'total time')
+        let overTime = totalTime - 8 > 0 ? totalTime - 8 : 0
                
-        setTasks({ date: values.date, worker: values.worker, floor: values.floor, line: values.line, task, avg })
-        setEfficiency({ date: values.date, worker: values.worker, floor: values.floor, task2, avg}) 
-        // setTimeout(() => { 
-        //     console.log('hitting ...')  
-        //     clickSubmit() 
-        //     console.log('hitting ...')
-        // },3000)
-        // clickSubmit()
+        setTasks({ date: values.date, worker: values.worker, floor: values.floor, line: values.line, task, avgEff, totalTime, overTime })
+        setEfficiency({ date: values.date, worker: values.worker, floor: values.floor, task2, avgEff}) 
+
          }  
 
       const clickSubmit = async() => {
@@ -337,17 +339,7 @@ export default function TaskForm(props) {
                         shrink: true,
                     }}
                 />  
-                {/* <input
-                    label="Time"
-                    // name='time'
-                    variant='outlined'
-                    type="number"
-                    value={time}
-                    onChange={(e) => setTime(e.target.value)}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    /> */}
+                
                  <Controls.Input 
                     type="number"
                     name='achieve'
@@ -356,8 +348,14 @@ export default function TaskForm(props) {
                     value={achieve}
                     // onChange={handleChange}
                     onChange={(e) => setAchieve(parseInt(e.target.value))}
-                    // error={errors.achieve}
-
+                /> 
+                 <Controls.Select
+                    name='group'
+                    label="Group"
+                    variant='outlined'
+                    value={group}
+                    onChange={(e) => setGroup(e.target.value)}
+                    options={groupValue}
                 /> 
                 <Controls.Button
                         text="Add Task"

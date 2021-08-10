@@ -6,7 +6,7 @@ import Header from './components/Header/index';
 import Workers from './components/Workers'
 import PageHeader from './components/Header/PageHeader'
 import Dashboard from './components/Dashboard';
-import Worker from './components/Worker';
+import Worker from './components/worker/Worker';
 import Task from './components/Task';
 import TaskForm from "./components/TaskForm";
 import Profile from './components/Profile';
@@ -55,11 +55,11 @@ const Routes = () => {
         
         <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="/task" exact component={Worker} />
+            <Route path="/worker/:id" exact component={Worker} />
             <Route path="/products" exact component={Products} />
             <Route path="/workers" exact component={Workers} />
             <Route path="/add-worker" exact component={AddWorker} />
-            <Route path="/worker/:id" exact component={Task} />
+            {/* <Route path="/worker/:id" exact component={Task} /> */}
             <Route path="/alltask" exact component={AllTasks} />
             <Route path="/addTask" exact component={TaskForm} />
             {/* <Route path="/worker/:id" exact component={Profile} /> */}

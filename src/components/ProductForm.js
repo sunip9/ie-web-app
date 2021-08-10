@@ -6,7 +6,7 @@ import MuiPaper from './usePaper';
 import CloseIcon from '@material-ui/icons/Close';
 
 const initialValues = {
-    buyer: '', item: '', gsm: '', type:'',style: '',pro:[]
+    buyer: '', item: '', gsm: '', type:'', style: '', pro:[], color: '', article: ''
 }
 
 const type = [
@@ -14,11 +14,17 @@ const type = [
     { id: 'stitching short hem', title: 'Stitching Short Hem'}, { id: 'folding', title: 'Folding'}
 ]
 
+const colorType = [
+    { id: 'red', title: 'Red'}, { id: 'white', title: 'White'}, { id: 'black', title: 'Black'}, { id: 'grey', title: 'Grey'},
+    { id: 'green', title: 'Green'} 
+]
+
 export default function ProductForm(props) {
     const { addOrEdit, recordForEdit } = props
 
     const [smv, setSmv] = useState()
     const [target, setTarget] = useState()
+    const [process2,setProcess2] =useState([])
     const [types, setTypes] = useState()
     const [processes, setProcess] = useState([])
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
@@ -31,15 +37,13 @@ export default function ProductForm(props) {
         temp.size = fieldValues.size ? "" : "Worker ID is required !!"
         if('gsm' in fieldValues)
         temp.gsm = fieldValues.gsm ? "" : "Salary is required !!"
-        // if('shift' in fieldValues)
-        // temp.shift = fieldValues.shift.length != 0 ? "" : "Shift is required !!"
         setErrors({
             ...temp
         })
         if(fieldValues == values)
         return Object.values(temp).every(x => x== "")
     }
-    const {values, setValues,errors, setErrors,handleChange, resetForm} = useForm(initialValues, true, validate)
+    const {values, setValues,errors, setErrors, handleChange, resetForm} = useForm(initialValues, true, validate)
 
     const handleSubmit = e =>{
         e.preventDefault()
@@ -55,26 +59,33 @@ export default function ProductForm(props) {
     }, [recordForEdit])
 
     const addProcess = () =>{
-        const oneProcess = {type:values.type, smv: parseFloat(smv), target}  
-
-        values.pro ? setValues({...values, pro:[...values.pro,oneProcess]}) : setValues({...values})
+        const oneProcess = { type:values.type, smv: parseFloat(smv), target}     
+        setProcess2([...process2, oneProcess])
+        // (values.pro ? setValues({...values, pro:[...values.pro,oneProcess]}) : setValues({oneProcess}))
         setSmv('')
-        setTarget('')        
+        setTarget('')                
     }
+    // console.log(process2,'process2')
     const addValues = () =>{
-        setValues({...values, pro:[processes]})
+        values.pro ?          
+        setValues({...values, pro: [...values.pro.concat(process2)]})        
+         :
+        setValues({...values})
     }
+    // console.log(values.pro.concat(process2), 'concat')
+    console.log(values, 'values')
+    
     const onDelete = (i) =>{
         console.log('deleted',i)
-        processes.splice(i,1)
+        // process2.splice(i,1)
+        setValues({...values, pro:[values.pro.splice(i,1)]})
         setNotify({
             isOpen: true,
             message: 'Deleted !!',
             type: 'error'
         })
     }
-    console.log(processes, 'process')
-    console.log(values,'values')
+
     return (
         <>
         <MuiPaper>
@@ -119,17 +130,32 @@ export default function ProductForm(props) {
 
                 />
                 <Controls.Input 
-
                     name='style'
                     label="Style"
                     variant="outlined"
                     value={values.style}
                     onChange={handleChange}
-                    // error={errors.item}
-
                     />
+                 <Controls.Input 
+                    name='article'
+                    label="Article"
+                    variant="outlined"
+                    value={values.article}
+                    onChange={handleChange}
+                    />    
+                <Controls.Select
+                    name='color'
+                    label="Color"
+                    variant='outlined'
+                    value={values.color}
+                    onChange={handleChange}
+                    options={colorType}
+
+                />
+                    
             </Grid>
             <Grid item xs={6}>
+                <h4 style={{marginLeft: '10px'}}>Add Process</h4>
                 <Controls.Select
                     name='type'
                     label="Type"
@@ -167,9 +193,9 @@ export default function ProductForm(props) {
                         text='Add Another Type'
                         onClick={addProcess}
                 /> 
-
+                        <br />
                 {values.pro ?
-                        <table style={{width:'100%'}}>
+                        <table style={{width:'100%', margin:"10px"}}>
                         <tr>
                             <th>SL</th>
                             <th>Type</th>
@@ -198,12 +224,14 @@ export default function ProductForm(props) {
                         </table>
                         
                         : 
-                        ''}
+                        <p style={{margin:"10px"}}>No Process Added !!</p>
+                        }
+                        
                 
             </Grid>
             </Grid>
             <div style={{margin: ' 20px 0 20px 10px', paddingLeft: '5px'}}>
-            <Controls.Button
+                    <Controls.Button
                         text='Submit'
                         onClick={addValues}
                         /> 

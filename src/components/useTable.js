@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme =>({
 
 export default function useTable(workers, headcells, filterFn) {
     const classes = useStyles()
-    const pages = [5, 10, 25]
+    const pages = [10, 15, 25]
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(pages[page])
     const [order, setOrder] = useState()

@@ -176,7 +176,7 @@ export default function SideMenu() {
           bgColor="#e8f0fe"
         />
         </LinkContainer>
-        <StyledTreeItem
+        {/* <StyledTreeItem
           nodeId="6"
           labelText="Update Worker"
           labelIcon={InfoIcon}
@@ -191,7 +191,7 @@ export default function SideMenu() {
           labelIcon={ForumIcon}
           labelInfo="3,566"
         />
-         </LinkContainer>
+         </LinkContainer> */}
         <StyledTreeItem
           nodeId="8"
           labelText="Info"
@@ -208,7 +208,9 @@ export default function SideMenu() {
         labelIcon={ExtensionRoundedIcon} 
         />
       </LinkContainer>
-      <StyledTreeItem nodeId="13" labelText="Shift" labelIcon={TrackChangesRoundedIcon} />
+      <LinkContainer to='/po' style={{cursor: 'pointer', color:'#a250f5'}}> 
+        <StyledTreeItem nodeId="13" labelText="PO" labelIcon={TrackChangesRoundedIcon} />
+      </LinkContainer>
       <StyledTreeItem nodeId="4" labelText="Reports" labelIcon={GetAppIcon} />
 
     </TreeView>

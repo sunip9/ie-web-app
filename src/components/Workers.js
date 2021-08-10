@@ -54,10 +54,10 @@ export default function Workers() {
         let target = e.target;
         setFilterFn({
             fn: items => {
-                if (target.value == "")
+                if (target.value == null)
                     return items;
                 else
-                    return items.filter(x => x.name.toLowerCase().includes(target.value))
+                    return items.filter(x => x.name.includes(e.target.value))
             }
         })
     }

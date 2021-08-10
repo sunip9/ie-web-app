@@ -5,7 +5,7 @@ import { getProducts, addTask, getWorkers, addEfficiency } from '../api';
 import { GridColumnsPanel } from '@material-ui/data-grid';
 import { Grid, Paper, makeStyles, TextField } from '@material-ui/core';
 import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone'
-import PageHeader from '../components/Header/PageHeader'
+import PageHeader from './Header/PageHeader'
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,

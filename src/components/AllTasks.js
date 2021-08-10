@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 }))
 const headcells =[
     {id:'date', label: "Date"}, {id:'floor', label: "Floor", type: "number"}, 
-    {id:'line', label: "Line"}, {id:'task', label: "Number of Product"},
+    {id:'line', label: "Line"}, {id:'task', label: "Number of Product"},{id:'time', label: "Total Time"},
     {id: 'avg', label: "Efficiency"}, {id:'action', label: "Action", disableSorting: true}
 ]
 
@@ -129,7 +129,8 @@ export default function Workers() {
                     <TableCell>{item.floor}</TableCell>
                     <TableCell>{item.line}</TableCell>
                     <TableCell>{item.task.length}</TableCell>
-                    <TableCell>{item.avg}</TableCell>
+                    <TableCell>{item.totalTime}</TableCell>
+                    <TableCell>{item.avgEff} %</TableCell>
 
                     <TableCell>
                         <Controls.ActionButton
